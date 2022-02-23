@@ -5,7 +5,7 @@
         public static Dictionary<string, string> ParametersToDict(string parameters)
         {
             Dictionary<string, string> result = new();
-            if(!string.IsNullOrEmpty(parameters))
+            if (!string.IsNullOrEmpty(parameters))
             {
                 string[] parts = parameters.Substring(1, parameters.Length - 2).Trim().Split('|');
 
@@ -31,7 +31,11 @@
 
                 foreach (var keyValuePair in parametersDict)
                 {
-                    result += $"{keyValuePair.Key} = '{keyValuePair.Value}' and ";
+                    if (keyValuePair.Value[0] != '%')
+                        result += $"{keyValuePair.Key} = '{keyValuePair.Value}' and ";
+                    else
+                        result += $"{keyValuePair.Key} = {keyValuePair.Value.Substring(1)} and ";
+
                 }
 
                 result = result.Substring(0, result.Length - 5); //To remove the last ' and '
