@@ -11,7 +11,7 @@
 
                 foreach (string keyValuePair in parts)
                 {
-                    string[] keyValueSeparated = keyValuePair.Trim().Split('=');
+                    string[] keyValueSeparated = keyValuePair.Trim().Split('=', 2);
                     result.Add(keyValueSeparated[0].Trim(), keyValueSeparated[1].Trim());
                 }
             }
