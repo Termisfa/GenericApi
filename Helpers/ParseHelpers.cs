@@ -31,7 +31,7 @@
 
                 foreach (var keyValuePair in parametersDict)
                 {
-                    if (keyValuePair.Value[0] != '%')
+                    if (keyValuePair.Value[0] != '$')
                         result += $"{keyValuePair.Key} = '{keyValuePair.Value}' and ";
                     else
                         result += $"{keyValuePair.Key} = {keyValuePair.Value.Substring(1)} and ";
