@@ -1,4 +1,5 @@
 ﻿using GenericApi.ApiRestHandler;
+using GenericApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GenericApi.Controllers
@@ -15,13 +16,11 @@ namespace GenericApi.Controllers
             _apiRestHandler = apiRestHandler;
         }
 
-        [HttpDelete]
-        public virtual IActionResult Delete()
+        [HttpGet("/ResetConnections")]
+        public virtual ActionResult<Response> ResetConnections()
         {
-            _apiRestHandler.DeleteConnectionStrings();
-            return Ok();
+            return Ok(_apiRestHandler.ResetConnections().Result);
         }
-
     }
 }
 

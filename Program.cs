@@ -1,4 +1,5 @@
 using ForexBot.Lib.Helpers.Extensions;
+using MySqlDatabase.Helpers;
 using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,15 +19,17 @@ builder.Services.AddOtherServices();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    scope.ServiceProvider.GetRequiredService<IResetConnections>().Initialize();
+}
+
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-
-
 
 app.UseHttpsRedirection();
 

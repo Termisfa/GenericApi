@@ -15,36 +15,39 @@ namespace GenericApi
 
         public (string columns, string values) GetInsertFromDict()
         {
-            string columns = "(";
-            string values = "(";
-
-            foreach (var item in this.NameValueDict)
+            try
             {
-                columns += item.Key + ",";
-                values += $"'{item.Value}',";
-            }
-            
-            //To remove the last ',' of both
-            columns = columns.Substring(0, columns.Length - 1) + ")";
-            values = values.Substring(0, values.Length - 1) + ")";
+                string columns = "(" + string.Join(',', this.NameValueDict.Keys) + ")";
+                string values = "('" + string.Join("','", this.NameValueDict.Values) + "')";
 
-            return (columns, values);
+                return (columns, values);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
 
         public string GetUpdateSetsFromDict()
         {
-            string result = string.Empty;
-
-            foreach (var item in this.NameValueDict)
+            try
             {
-                result += $"{item.Key} = '{item.Value}', ";
+                string result = string.Empty;
+
+                foreach (var item in this.NameValueDict)
+                {
+                    result += $"{item.Key} = '{item.Value}', ";
+                }
+
+                //To remove the last ', '
+                result = result.Substring(0, result.Length - 2);
+
+                return result;
             }
-
-            //To remove the last ', '
-            result = result.Substring(0, result.Length - 2);
-
-            return result;
+            catch (Exception e)
+            {
+                throw;
+            }
         }
-
     }
 }

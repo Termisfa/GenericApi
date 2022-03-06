@@ -1,17 +1,19 @@
-﻿namespace GenericApi.ApiRestHandler
+﻿using GenericApi.Models;
+
+namespace GenericApi.ApiRestHandler
 {
     public interface IApiRestHandler
     {
-        Task<string> Get(string schema, string table, string? parameters = default);
+        Task<Response> Get(string schema, string table, string? parameters = default);
 
-        Task<int> Post(HttpObject obj);
+        Task<Response> Post(HttpObject obj);
 
-        Task<int> Put(HttpObject obj, string parameters);
+        Task<Response> Put(HttpObject obj, string parameters);
 
-        Task<int> Delete(string schema, string table, string parameters);
+        Task<Response> Delete(string schema, string table, string parameters);
 
-        Task<int> DeleteWithoutWhere(string schema, string table);
+        Task<Response> DeleteWithoutWhere(string schema, string table);
 
-        void DeleteConnectionStrings();
+        Task<Response> ResetConnections();
     }
 }

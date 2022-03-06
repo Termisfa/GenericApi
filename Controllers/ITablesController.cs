@@ -1,18 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GenericApi.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GenericApi.Controllers
 {
     public interface ITablesController
     {
 
-        ActionResult<string> Get(string schema, string table, string? parameters = default);
+        ActionResult<Response> Get(string schema, string table, string? parameters = default);
 
-        IActionResult Post(HttpObject obj);
-        
-        IActionResult Put(HttpObject obj, string parameters);
-        
-        IActionResult Delete(string schema, string table, string parameters);
-        
-        IActionResult DeleteWithoutWhere(string schema, string table);
+        ActionResult<Response> Post(HttpObject obj);
+
+        ActionResult<Response> Put(HttpObject obj, string parameters);
+
+        ActionResult<Response> Delete(string schema, string table, string parameters);
+
+        ActionResult<Response> DeleteWithoutWhere(string schema, string table);
     }
 }

@@ -5,6 +5,13 @@ VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenericApi", "GenericApi.csproj", "{7D0648E6-B201-422A-B4BE-C78F82640E88}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MySqlDatabase", "..\MySqlDatabase\MySqlDatabase.csproj", "{E4905A6F-BF73-41D0-96BC-9FC48C0275C2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7C2390AF-EF29-4DD8-987F-9B3D26FBC2C0}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +22,10 @@ Global
 		{7D0648E6-B201-422A-B4BE-C78F82640E88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D0648E6-B201-422A-B4BE-C78F82640E88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D0648E6-B201-422A-B4BE-C78F82640E88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4905A6F-BF73-41D0-96BC-9FC48C0275C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4905A6F-BF73-41D0-96BC-9FC48C0275C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4905A6F-BF73-41D0-96BC-9FC48C0275C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4905A6F-BF73-41D0-96BC-9FC48C0275C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

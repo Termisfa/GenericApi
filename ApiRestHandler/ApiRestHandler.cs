@@ -1,6 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
 using System.Text.Json;
 using MySqlDatabase.Handlers;
+using MySqlDatabase.Helpers;
+using GenericApi.Models;
 
 namespace GenericApi.ApiRestHandler
 {
@@ -13,20 +15,28 @@ namespace GenericApi.ApiRestHandler
             _querysHandler = querysHandler;
         }
 
-        public async Task<string> Get(string schema, string table, string? parameters = default)
+        public async Task<Response> Get(string schema, string table, string? parameters = default)
         {
-            string whereString = Helpers.ParseHelpers.ParseParametersIntoWhereString(parameters);
+            try
+            {
+                string whereString = Helpers.ParseHelpers.ParseParametersIntoWhereString(parameters);
 
-            string query = $"select * from {table} {whereString}";
+                string query = $"select * from {table} {whereString}";
 
-            var resultList = await _querysHandler.GetQueryResultAsync(schema, query);
+                var resultList = await _querysHandler.GetQueryResultAsync(schema, query);
 
-            string result = JsonSerializer.Serialize(resultList);
+                string queryResult = JsonSerializer.Serialize(resultList);
 
-            return result;
+                return Response.SuccesfulResponse(queryResult);
+            }
+            catch (Exception e)
+            {
+                return Response.UnsuccesfulResponseFromException(e);
+            }
+
         }
 
-        public async Task<int> Post(HttpObject obj)
+        public async Task<Response> Post(HttpObject obj)
         {
             try
             {
@@ -36,22 +46,15 @@ namespace GenericApi.ApiRestHandler
 
                 var affectedRows = await _querysHandler.GetNonQueryResultAsync(obj.Schema, query);
 
-                return affectedRows;
-            }
-            catch (MySqlException e)
-            {
-                if (e.Number == 1062) //Duplicate entry
-                    return -1;
-                else
-                    throw;
+                return Response.SuccesfulResponse(affectedRows.ToString());
             }
             catch (Exception e)
             {
-                throw;
+                return Response.UnsuccesfulResponseFromException(e);
             }
         }
 
-        public async Task<int> Put(HttpObject obj, string parameters)
+        public async Task<Response> Put(HttpObject obj, string parameters)
         {
             try
             {
@@ -65,47 +68,64 @@ namespace GenericApi.ApiRestHandler
 
                 var affectedRows = await _querysHandler.GetNonQueryResultAsync(obj.Schema, query);
 
-                return affectedRows;
-            }
-            catch (MySqlException e)
-            {
-                if (e.Number == 1062) //Duplicate entry
-                    return -1;
-                else
-                    throw;
+                return Response.SuccesfulResponse(affectedRows.ToString());
             }
             catch (Exception e)
             {
-                throw;
+                return Response.UnsuccesfulResponseFromException(e);
             }
         }
 
-        public async Task<int> Delete(string schema, string table, string parameters)
+        public async Task<Response> Delete(string schema, string table, string parameters)
         {
-            string whereString = Helpers.ParseHelpers.ParseParametersIntoWhereString(parameters);
+            try
+            {
+                string whereString = Helpers.ParseHelpers.ParseParametersIntoWhereString(parameters);
 
-            if (string.IsNullOrEmpty(whereString))
+                if (string.IsNullOrEmpty(whereString))
                     throw new Exception("Deleting without WHERE clause is not allowed");
 
-            string query = $"delete from {table} {whereString}";
+                string query = $"delete from {table} {whereString}";
 
-            var affectedRows = await _querysHandler.GetNonQueryResultAsync(schema, query);
+                var affectedRows = await _querysHandler.GetNonQueryResultAsync(schema, query);
 
-            return affectedRows;
+                return Response.SuccesfulResponse(affectedRows.ToString());
+            }
+            catch (Exception e)
+            {
+                return Response.UnsuccesfulResponseFromException(e);
+            }
+            
         }
 
-        public async Task<int> DeleteWithoutWhere(string schema, string table)
+        public async Task<Response> DeleteWithoutWhere(string schema, string table)
         {
-            string query = $"delete from {table}";
+            try
+            {
+                string query = $"delete from {table}";
 
-            var affectedRows = await _querysHandler.GetNonQueryResultAsync(schema, query);
+                var affectedRows = await _querysHandler.GetNonQueryResultAsync(schema, query);
 
-            return affectedRows;
+                return Response.SuccesfulResponse(affectedRows.ToString());
+            }
+            catch (Exception e)
+            {
+                return Response.UnsuccesfulResponseFromException(e);
+            }
+            
         }
 
-        public void DeleteConnectionStrings()
+        public async Task<Response> ResetConnections()
         {
-            _querysHandler.DeleteConnectionStrings();
+            try
+            {
+                _querysHandler.ResetConnections();
+                return Response.SuccesfulResponse(string.Empty);
+            }
+            catch (Exception e)
+            {
+                return Response.UnsuccesfulResponseFromException(e);
+            }
         }
     }
 }

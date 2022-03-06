@@ -16,8 +16,11 @@
 
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.28" />
-    <PackageReference Include="MySqlDatabase" Version="1.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MySqlDatabase\MySqlDatabase.csproj" />
   </ItemGroup>
 
 </Project>
