@@ -17,45 +17,51 @@ namespace GenericApi.ApiRestHandler
 
         public async Task<Response> Get(string schema, string table, string? parameters = default)
         {
+            string query = string.Empty;
+
             try
             {
                 string whereString = Helpers.ParseHelpers.ParseParametersIntoWhereString(parameters);
 
-                string query = $"select * from {table} {whereString}";
+                query = $"select * from {table} {whereString}";
 
                 var resultList = await _querysHandler.GetQueryResultAsync(schema, query);
 
                 string queryResult = JsonSerializer.Serialize(resultList);
 
-                return Response.SuccesfulResponse(queryResult);
+                return Response.SuccesfulResponse(queryResult, query);
             }
             catch (Exception e)
             {
-                return Response.UnsuccesfulResponseFromException(e);
+                return Response.UnsuccesfulResponseFromException(e, query);
             }
 
         }
 
         public async Task<Response> Post(HttpObject obj)
         {
+            string query = string.Empty;
+
             try
             {
                 var columnsValues = obj.GetInsertFromDict();
 
-                string query = $"insert into {obj.Table}{columnsValues.columns} values {columnsValues.values}";
+                query = $"insert into {obj.Table}{columnsValues.columns} values {columnsValues.values}";
 
                 var affectedRows = await _querysHandler.GetNonQueryResultAsync(obj.Schema, query);
 
-                return Response.SuccesfulResponse(affectedRows.ToString());
+                return Response.SuccesfulResponse(affectedRows.ToString(), query);
             }
             catch (Exception e)
             {
-                return Response.UnsuccesfulResponseFromException(e);
+                return Response.UnsuccesfulResponseFromException(e, query);
             }
         }
 
         public async Task<Response> Put(HttpObject obj, string parameters)
         {
+            string query = string.Empty;
+
             try
             {
                 string whereString = Helpers.ParseHelpers.ParseParametersIntoWhereString(parameters);
@@ -64,20 +70,22 @@ namespace GenericApi.ApiRestHandler
                     throw new Exception("Updating without WHERE clause is not allowed");
 
                 var setUpdateString = obj.GetUpdateSetsFromDict();
-                string query = $"update {obj.Table} set {setUpdateString} {whereString}";
+                query = $"update {obj.Table} set {setUpdateString} {whereString}";
 
                 var affectedRows = await _querysHandler.GetNonQueryResultAsync(obj.Schema, query);
 
-                return Response.SuccesfulResponse(affectedRows.ToString());
+                return Response.SuccesfulResponse(affectedRows.ToString(), query);
             }
             catch (Exception e)
             {
-                return Response.UnsuccesfulResponseFromException(e);
+                return Response.UnsuccesfulResponseFromException(e, query);
             }
         }
 
         public async Task<Response> Delete(string schema, string table, string parameters)
         {
+            string query = string.Empty;
+
             try
             {
                 string whereString = Helpers.ParseHelpers.ParseParametersIntoWhereString(parameters);
@@ -85,32 +93,34 @@ namespace GenericApi.ApiRestHandler
                 if (string.IsNullOrEmpty(whereString))
                     throw new Exception("Deleting without WHERE clause is not allowed");
 
-                string query = $"delete from {table} {whereString}";
+                query = $"delete from {table} {whereString}";
 
                 var affectedRows = await _querysHandler.GetNonQueryResultAsync(schema, query);
 
-                return Response.SuccesfulResponse(affectedRows.ToString());
+                return Response.SuccesfulResponse(affectedRows.ToString(), query);
             }
             catch (Exception e)
             {
-                return Response.UnsuccesfulResponseFromException(e);
+                return Response.UnsuccesfulResponseFromException(e, query);
             }
             
         }
 
         public async Task<Response> DeleteWithoutWhere(string schema, string table)
         {
+            string query = string.Empty;
+
             try
             {
-                string query = $"delete from {table}";
+                query = $"delete from {table}";
 
                 var affectedRows = await _querysHandler.GetNonQueryResultAsync(schema, query);
 
-                return Response.SuccesfulResponse(affectedRows.ToString());
+                return Response.SuccesfulResponse(affectedRows.ToString(), query);
             }
             catch (Exception e)
             {
-                return Response.UnsuccesfulResponseFromException(e);
+                return Response.UnsuccesfulResponseFromException(e, query);
             }
             
         }
