@@ -5,8 +5,6 @@ namespace GenericApi
 {
     public class HttpObject
     {
-        public string Schema { get; set; }
-        public string Table { get; set; }
         public Dictionary<string, string> NameValueDict { get; set; }
 
         public HttpObject()

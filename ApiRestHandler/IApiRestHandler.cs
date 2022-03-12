@@ -6,9 +6,9 @@ namespace GenericApi.ApiRestHandler
     {
         Task<Response> Get(string schema, string table, string? parameters = default);
 
-        Task<Response> Post(HttpObject obj);
+        Task<Response> Post(string schema, string table, HttpObject obj);
 
-        Task<Response> Put(HttpObject obj, string parameters);
+        Task<Response> Put(string schema, string table, HttpObject obj, string parameters);
 
         Task<Response> Delete(string schema, string table, string parameters);
 

@@ -1,5 +1,6 @@
 ﻿using GenericApi.ApiRestHandler;
 using GenericApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GenericApi.Controllers
@@ -16,6 +17,7 @@ namespace GenericApi.Controllers
             _apiRestHandler = apiRestHandler;
         }
 
+        [Authorize]
         [HttpGet("/ResetConnections")]
         public virtual ActionResult<Response> ResetConnections()
         {

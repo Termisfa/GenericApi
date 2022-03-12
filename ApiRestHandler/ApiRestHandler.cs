@@ -35,10 +35,9 @@ namespace GenericApi.ApiRestHandler
             {
                 return Response.UnsuccesfulResponseFromException(e, query);
             }
-
         }
 
-        public async Task<Response> Post(HttpObject obj)
+        public async Task<Response> Post(string schema, string table, HttpObject obj)
         {
             string query = string.Empty;
 
@@ -46,9 +45,9 @@ namespace GenericApi.ApiRestHandler
             {
                 var columnsValues = obj.GetInsertFromDict();
 
-                query = $"insert into {obj.Table}{columnsValues.columns} values {columnsValues.values}";
+                query = $"insert into {table}{columnsValues.columns} values {columnsValues.values}";
 
-                var affectedRows = await _querysHandler.GetNonQueryResultAsync(obj.Schema, query);
+                var affectedRows = await _querysHandler.GetNonQueryResultAsync(schema, query);
 
                 return Response.SuccesfulResponse(affectedRows.ToString(), query);
             }
@@ -58,7 +57,7 @@ namespace GenericApi.ApiRestHandler
             }
         }
 
-        public async Task<Response> Put(HttpObject obj, string parameters)
+        public async Task<Response> Put(string schema, string table, HttpObject obj, string parameters)
         {
             string query = string.Empty;
 
@@ -70,9 +69,9 @@ namespace GenericApi.ApiRestHandler
                     throw new Exception("Updating without WHERE clause is not allowed");
 
                 var setUpdateString = obj.GetUpdateSetsFromDict();
-                query = $"update {obj.Table} set {setUpdateString} {whereString}";
+                query = $"update {table} set {setUpdateString} {whereString}";
 
-                var affectedRows = await _querysHandler.GetNonQueryResultAsync(obj.Schema, query);
+                var affectedRows = await _querysHandler.GetNonQueryResultAsync(schema, query);
 
                 return Response.SuccesfulResponse(affectedRows.ToString(), query);
             }
