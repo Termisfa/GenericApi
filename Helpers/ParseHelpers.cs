@@ -8,46 +8,20 @@
             {
                 string result = string.Empty;
 
-                Dictionary<string, string> parametersDict = ParametersToDict(parameters);
-
-                if (parametersDict.Count > 0)
+                if (!string.IsNullOrEmpty(parameters))
                 {
                     result += "where ";
 
-                    foreach (var keyValuePair in parametersDict)
-                    {
-                        if (keyValuePair.Value[0] != '$')
-                            result += $"{keyValuePair.Key} = '{keyValuePair.Value}' and ";
-                        else
-                            result += $"{keyValuePair.Key} = {keyValuePair.Value.Substring(1)} and ";
-
-                    }
-
-                    result = result.Substring(0, result.Length - 5); //To remove the last ' and '
-                }
-
-                return result;
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-        }
-
-        private static Dictionary<string, string> ParametersToDict(string parameters)
-        {
-            try
-            {
-                Dictionary<string, string> result = new();
-                if (!string.IsNullOrEmpty(parameters))
-                {
-                    string[] parts = parameters.Substring(1, parameters.Length - 2).Trim().Split('|');
+                    string[] parts = parameters.Substring(1, parameters.Length - 2).Trim().Split("|$|");
 
                     foreach (string keyValuePair in parts)
                     {
-                        string[] keyValueSeparated = keyValuePair.Trim().Split('=', 2);
-                        result.Add(keyValueSeparated[0].Trim(), keyValueSeparated[1].Trim());
+                        string[] parameterSplitted = keyValuePair.Trim().Split("$$$", 3);
+
+                        result += $"{parameterSplitted[0]} {parameterSplitted[1]} {parameterSplitted[2]} and ";
                     }
+
+                    result = result.Substring(0, result.Length - 5); //To remove the last ' and '
                 }
 
                 return result;
