@@ -120,8 +120,27 @@ namespace GenericApi.ApiRestHandler
             catch (Exception e)
             {
                 return Response.UnsuccesfulResponseFromException(e, query);
+            }            
+        }
+
+        public async Task<Response> ShowCreateTable(string schema, string table)
+        {
+            string query = string.Empty;
+
+            try
+            {
+                query = $"show create table {table}";
+
+                var resultList = await _querysHandler.GetQueryResultAsync(schema, query);
+
+                string queryResult = JsonSerializer.Serialize(resultList);
+
+                return Response.SuccesfulResponse(queryResult, query);
             }
-            
+            catch (Exception e)
+            {
+                return Response.UnsuccesfulResponseFromException(e, query);
+            }
         }
 
         public async Task<Response> ResetConnections()

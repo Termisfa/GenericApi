@@ -14,6 +14,8 @@ namespace GenericApi.ApiRestHandler
 
         Task<Response> DeleteWithoutWhere(string schema, string table);
 
+        Task<Response> ShowCreateTable(string schema, string table);
+
         Task<Response> ResetConnections();
     }
 }

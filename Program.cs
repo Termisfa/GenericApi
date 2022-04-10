@@ -1,10 +1,8 @@
 using ForexBot.Lib.Helpers.Extensions;
 using GenericApi.Authorization;
 using MySqlDatabase.Helpers;
-using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddControllers();
 

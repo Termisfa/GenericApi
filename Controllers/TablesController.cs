@@ -54,6 +54,14 @@ namespace GenericApi.Controllers
         {
             return Ok(_apiRestHandler.DeleteWithoutWhere(Request.Headers["schema"], table).Result);
         }
+
+        //Example format: ShowCreateTable/table=constants
+        [AuthorizeCustom]
+        [HttpGet("ShowCreateTable")]
+        public virtual ActionResult<Response> ShowCreateTable(string table)
+        {
+            return Ok(_apiRestHandler.ShowCreateTable(Request.Headers["schema"], table).Result);
+        }
     }
 }
 
