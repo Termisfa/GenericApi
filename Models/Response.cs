@@ -8,7 +8,9 @@
 
         public string Result { get; set; }
 
-        public string UsedQuery { get; set; }
+        public string QueryUsed { get; set; }
+
+        public string UriUsed { get; set; }
 
         public static Response SuccesfulResponse(string result, string query = default)
         {
@@ -16,7 +18,7 @@
             {
                 Success = true,
                 Result = result,
-                UsedQuery = query
+                QueryUsed = query
             };
         }
 
@@ -26,7 +28,7 @@
             {
                 Success = false,
                 ErrorInfo = errorInfo,
-                UsedQuery = query
+                QueryUsed = query
             };
         }
 
@@ -37,7 +39,7 @@
             {
                 Success = false,
                 ErrorInfo = errorInfo,
-                UsedQuery = query
+                QueryUsed = query
             };
         }
     }
