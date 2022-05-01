@@ -11,14 +11,16 @@ namespace GenericApi
         {
         }
 
-        public (string columns, string values) GetInsertFromDict()
+        public string GetQueryFromDict(string table)
         {
             try
             {
                 string columns = "(" + string.Join(',', this.NameValueDict.Keys) + ")";
                 string values = "('" + string.Join("','", this.NameValueDict.Values) + "')";
 
-                return (columns, values);
+                string query = $"insert into {table}{columns} values {values}";
+
+                return query;
             }
             catch (Exception e)
             {

@@ -43,9 +43,25 @@ namespace GenericApi.ApiRestHandler
 
             try
             {
-                var columnsValues = obj.GetInsertFromDict();
+                query = obj.GetQueryFromDict(table);
 
-                query = $"insert into {table}{columnsValues.columns} values {columnsValues.values}";
+                var affectedRows = await _querysHandler.GetNonQueryResultAsync(schema, query);
+
+                return Response.SuccesfulResponse(affectedRows.ToString(), query);
+            }
+            catch (Exception e)
+            {
+                return Response.UnsuccesfulResponseFromException(e, query);
+            }
+        }
+
+        public async Task<Response> BulkInsert(string schema, string table, BulkInsert obj)
+        {
+            string query = string.Empty;
+
+            try
+            {
+                query = obj.GetInsertQuery(table);
 
                 var affectedRows = await _querysHandler.GetNonQueryResultAsync(schema, query);
 

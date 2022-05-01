@@ -20,47 +20,54 @@ namespace GenericApi.Controllers
         //Example format: table=constants&parameters=(id=5|name=serverId)
         [AuthorizeCustom]
         [HttpGet]
-        public virtual ActionResult<Response> Get(string table, string? parameters = default)
+        public virtual async Task<ActionResult<Response>> Get(string table, string? parameters = default)
         {
-            return Ok(_apiRestHandler.Get(Request.Headers["schema"], table, parameters).Result);
+            return Ok(await _apiRestHandler.Get(Request.Headers["schema"], table, parameters));
         }
 
         [AuthorizeCustom]
         [HttpPost]
-        public virtual ActionResult<Response> Post(string table, HttpObject obj)
+        public virtual async Task<ActionResult<Response>> Post(string table, HttpObject obj)
         {
-            return Ok(_apiRestHandler.Post(Request.Headers["schema"], table, obj).Result);
+            return Ok(await _apiRestHandler.Post(Request.Headers["schema"], table, obj));
+        }
+
+        [AuthorizeCustom]
+        [HttpPost("BulkInsert")]
+        public virtual async Task<ActionResult<Response>> BulkInsert(string table, BulkInsert obj)
+        {
+            return Ok(await _apiRestHandler.BulkInsert(Request.Headers["schema"], table, obj));
         }
 
         //Example format: table=constants&parameters=(id=5|name=serverId)
         [AuthorizeCustom]
         [HttpPut]
-        public virtual ActionResult<Response> Put(string table, string parameters, HttpObject obj)
+        public virtual async Task<ActionResult<Response>> Put(string table, string parameters, HttpObject obj)
         {
-            return Ok(_apiRestHandler.Put(Request.Headers["schema"], table, obj, parameters).Result);
+            return Ok(await _apiRestHandler.Put(Request.Headers["schema"], table, obj, parameters));
         }
 
         //Example format: table=constants&parameters=(id=5|name=serverId)
         [AuthorizeCustom]
         [HttpDelete]
-        public virtual ActionResult<Response> Delete(string table, string parameters)
+        public virtual async Task<ActionResult<Response>> Delete(string table, string parameters)
         {
-            return Ok(_apiRestHandler.Delete(Request.Headers["schema"], table, parameters).Result);
+            return Ok(await _apiRestHandler.Delete(Request.Headers["schema"], table, parameters));
         }
 
         [AuthorizeCustom]
         [HttpDelete("/WithoutWhere")]
-        public virtual ActionResult<Response> DeleteWithoutWhere(string table)
+        public virtual async Task<ActionResult<Response>> DeleteWithoutWhere(string table)
         {
-            return Ok(_apiRestHandler.DeleteWithoutWhere(Request.Headers["schema"], table).Result);
+            return Ok(await _apiRestHandler.DeleteWithoutWhere(Request.Headers["schema"], table));
         }
 
         //Example format: ShowCreateTable/table=constants
         [AuthorizeCustom]
         [HttpGet("ShowCreateTable")]
-        public virtual ActionResult<Response> ShowCreateTable(string table)
+        public virtual async Task<ActionResult<Response>> ShowCreateTable(string table)
         {
-            return Ok(_apiRestHandler.ShowCreateTable(Request.Headers["schema"], table).Result);
+            return Ok(await _apiRestHandler.ShowCreateTable(Request.Headers["schema"], table));
         }
     }
 }
